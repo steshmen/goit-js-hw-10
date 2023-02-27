@@ -20,4 +20,14 @@ body {
 }
 .country-list {
   list-style: none;
+  padding-left: 0;
+}
+.country-titel {
+  display: inline-block;
+  margin-left: 5px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+.country-item {
+  padding: 0;
 }

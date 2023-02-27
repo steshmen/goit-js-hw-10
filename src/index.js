@@ -15,49 +15,57 @@ function onInput(evt) {
     const name = evt.target.value.trim();
 
     if (!name) {
-        list.innerHTML = '';
-        info.innerHTML = '';
+        clear();
         return
     }
+    console.log(name);
 
     fetchCounter(name)
         .then(data => {
+            console.log(data);
             if (data.length > 10) {
+                clear();
                 Notiflix.Notify.info("Too many matches found. Please enter a more specific name.");
             }
             if (data.length === 1) {
-                onMarkupItem(data);
-                list.innerHTML = '';
+                clear();
+                creatMarkupItem(data);
             }
             if (data.length >= 2 && data.length <= 10) {
-                onMarkupList(data);
-                info.innerHTML = '';
+                clear();
+                creatMarkupList(data);
             }
             
         })
         .catch(err => {
+            clear();
             Notiflix.Notify.failure("Oops, there is no country with that name");
         });
 }
 
-function onMarkupList(arr) {
-    const markup = arr.map(({name, flag}) => {
+function creatMarkupList(arr) {
+    const markup = arr.map(({name, flags}) => {
         return `
-        <li>
-            <h2>${flag} ${name.common}</h2>
+        <li class="country-item">
+            <img src="${flags.svg}" alt="${name.common}" width="30">
+            <h2 class="country-titel"> ${name.official}</h2>
         </li>
         `}).join('');
     list.innerHTML = markup
 }
 
-function onMarkupItem(arr) {
-    const markup = arr.map(({ name, capital, population, languages, flag}) => {
+function creatMarkupItem(arr) {
+    const markup = arr.map(({ name, capital, population, languages, flags}) => {
         return `
-            <h2><span>${flag}</span> ${name.common}</h2>
+            <img src="${flags.svg}" alt="${name.common}" width="30">
+            <h2 class="country-titel">${name.official}</h2>
             <p><b>Capital:</b> ${capital}</p>
             <p><b>Population:</b> ${population}</p>
             <p><b>Languages:</b> ${Object.values(languages)}</p>`
     }).join('');
     info.innerHTML = markup;
 }
-
+function clear() {
+    list.innerHTML = '';
+    info.innerHTML = '';
+}
