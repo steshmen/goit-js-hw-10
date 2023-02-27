@@ -18,11 +18,9 @@ function onInput(evt) {
         clear();
         return
     }
-    console.log(name);
 
     fetchCounter(name)
         .then(data => {
-            console.log(data);
             if (data.length > 10) {
                 clear();
                 Notiflix.Notify.info("Too many matches found. Please enter a more specific name.");
